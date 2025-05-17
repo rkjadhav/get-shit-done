@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Shit Done - Spin. Focus. Finish. Celebrate.</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <header>
+            <div class="header-container">
+                <div class="app-info">
+                    <h1>Get Shit Done</h1>
+                    <p class="tagline">Spin. Focus. Finish. Celebrate.</p>
+                </div>
+                <div class="header-progress">
+                    <div class="dopamine-bar-container">
+                        <div class="dopamine-bar" id="dopamineBar">
+                            <div class="dopamine-fill" id="dopamineFill"></div>
+                        </div>
+                        <div class="dopamine-text">
+                            <span id="tasksCompleted">0</span> / <span id="totalTasks">0</span> tasks completed
+                        </div>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-label">XP</span>
+                            <span class="stat-value" id="xpEarned">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Level</span>
+                            <span class="stat-value" id="userLevel">1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Streak</span>
+                            <span class="stat-value" id="currentStreak">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <div class="theme-toggle">
+                        <input type="checkbox" id="themeToggle" class="theme-toggle-input">
+                        <label for="themeToggle" class="theme-toggle-label">
+                            <i class="fas fa-sun"></i>
+                            <i class="fas fa-moon"></i>
+                            <span class="toggle-ball"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main>
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="today">Today</button>
+                <button class="tab-btn" data-tab="activity">Activity</button>
+                <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+                <button class="tab-btn" data-tab="settings">Settings</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Today Tab (Default) -->
+                <div class="tab-pane active" id="today">
+                    <div class="today-container">
+                        <!-- Task Deck Section -->
+                        <div class="task-deck">
+                            <div class="section-header">
+                                <h2>Daily Task Deck</h2>
+                                <button class="add-task-btn" id="addTaskBtn">Add Task</button>
+                            </div>
+                            <div class="tasks-container" id="tasksContainer">
+                                <!-- Tasks will be added here dynamically -->
+                                <div class="empty-state" id="emptyTaskState">
+                                    <i class="fas fa-tasks"></i>
+                                    <p>No tasks yet? Let's keep it light today. Add just one thing.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Spin Wheel Section -->
+                        <div class="spin-section">
+                            <h2>Micro Task Spin</h2>
+                            <div class="wheel-container">
+                                <div class="wheel" id="wheel">
+                                    <!-- Wheel segments will be added dynamically -->
+                                    <div class="wheel-center"></div>
+                                </div>
+                                <button class="spin-btn" id="spinBtn" disabled>Spin the Wheel</button>
+                            </div>
+                            <div class="empty-state" id="emptySpinState">
+                                <i class="fas fa-sync-alt"></i>
+                                <p>Oops! No tasks to spin. Add a micro task first.</p>
+                            </div>
+                        </div>
+
+                        <!-- Focus Timer Section -->
+                        <div class="focus-section" id="focusSection">
+                            <h2>Focus Timer</h2>
+                            <div class="timer-container">
+                                <div class="task-info" id="currentTaskInfo">
+                                    <h3 id="currentTaskTitle">Select a task to focus on</h3>
+                                    <div class="task-tag" id="currentTaskTag"></div>
+                                </div>
+                                <div class="timer-display">
+                                    <div class="timer-circle">
+                                        <div class="timer-fill" id="timerFill"></div>
+                                        <div class="timer-text" id="timerText">15:00</div>
+                                    </div>
+                                </div>
+                                <div class="timer-controls">
+                                    <button class="timer-btn" id="startTimerBtn" disabled>Start</button>
+                                    <button class="timer-btn" id="pauseTimerBtn" disabled>Pause</button>
+                                    <button class="timer-btn" id="resetTimerBtn" disabled>Reset</button>
+                                </div>
+                                <div class="timer-settings">
+                                    <label for="timerDuration">Duration:</label>
+                                    <select id="timerDuration">
+                                        <option value="5">5 minutes</option>
+                                        <option value="15" selected>15 minutes</option>
+                                        <option value="25">25 minutes</option>
+                                        <option value="30">30 minutes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="tab-pane" id="activity">
+                    <div class="activity-container">
+                        <div class="activity-log">
+                            <h2>Activity Log</h2>
+                            <div class="date-selector">
+                                <button id="prevDayBtn"><i class="fas fa-chevron-left"></i></button>
+                                <span id="currentDate">Today</span>
+                                <button id="nextDayBtn"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="log-entries" id="logEntries">
+                                <div class="empty-state">
+                                    <i class="fas fa-book"></i>
+                                    <p>No activity logged yet for this day.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="journal-section">
+                            <h2>Daily Journal</h2>
+                            <div class="mood-tracker">
+                                <p>How did today feel?</p>
+                                <div class="emoji-container">
+                                    <button class="emoji-btn" data-mood="great">😁</button>
+                                    <button class="emoji-btn" data-mood="good">🙂</button>
+                                    <button class="emoji-btn" data-mood="neutral">😐</button>
+                                    <button class="emoji-btn" data-mood="bad">😔</button>
+                                    <button class="emoji-btn" data-mood="terrible">😫</button>
+                                </div>
+                            </div>
+                            <div class="journal-entry">
+                                <textarea id="journalText" placeholder="Write your thoughts about today..."></textarea>
+                                <button id="saveJournalBtn">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Tab -->
+                <div class="tab-pane" id="dashboard">
+                    <div class="dashboard-container">
+                        <h2>Analytics Dashboard</h2>
+                        <div class="date-range-selector">
+                            <select id="dateRangeSelect">
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+                        <div class="dashboard-grid">
+                            <div class="chart-container">
+                                <h3>Completion Rate</h3>
+                                <canvas id="completionChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Time Spent by Category</h3>
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                            <div class="stats-box">
+                                <h3>Statistics</h3>
+                                <div class="stat-row">
+                                    <span class="stat-label">Total Tasks Completed</span>
+                                    <span class="stat-value" id="totalTasksCompleted">0</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Current Streak</span>
+                                    <span class="stat-value" id="statsStreak">0 days</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Longest Streak</span>
+                                    <span class="stat-value" id="longestStreak">0 days</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Total Focus Time</span>
+                                    <span class="stat-value" id="totalFocusTime">0 min</span>
+                                </div>
+                            </div>
+                            <div class="achievements-container">
+                                <h3>Achievements</h3>
+                                <div class="achievements-grid" id="achievementsGrid">
+                                    <!-- Achievements will be added dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-pane" id="settings">
+                    <div class="settings-container">
+                        <h2>Settings</h2>
+                        <div class="settings-group">
+                            <h3>Appearance</h3>
+                            <div class="setting-item">
+                                <label>Theme</label>
+                                <p class="setting-note">Use the toggle in the top-right corner to switch between dark and light mode.</p>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h3>Timer</h3>
+                            <div class="setting-item">
+                                <label for="defaultTimerDuration">Default Timer Duration</label>
+                                <select id="defaultTimerDuration">
+                                    <option value="5">5 minutes</option>
+                                    <option value="15" selected>15 minutes</option>
+                                    <option value="25">25 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="timerSoundToggle">Timer Sounds</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="timerSoundToggle" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h3>Data Management</h3>
+                            <div class="setting-item">
+                                <button id="exportDataBtn" class="secondary-btn">Export Data</button>
+                                <button id="clearDataBtn" class="danger-btn">Clear All Data</button>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h3>About</h3>
+                            <div class="about-info">
+                                <p>Get Shit Done v1.0</p>
+                                <p>An ADHD-friendly productivity app</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="taskModalTitle">Add New Task</h2>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" placeholder="What do you need to get done?" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskTag">Category</label>
+                    <select id="taskTag">
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="creative">Creative</option>
+                        <option value="health">Health</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskEffort">Estimated Effort</label>
+                    <select id="taskEffort">
+                        <option value="5">5 min</option>
+                        <option value="15" selected>15 min</option>
+                        <option value="30">30 min</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Micro Tasks</label>
+                    <div id="microTasksContainer">
+                        <div class="micro-task-input">
+                            <input type="text" class="micro-task" placeholder="Add a micro task">
+                            <button type="button" class="remove-micro-task">×</button>
+                        </div>
+                    </div>
+                    <button type="button" id="addMicroTaskBtn" class="secondary-btn">+ Add Micro Task</button>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelTaskBtn" class="secondary-btn">Cancel</button>
+                    <button type="submit" id="saveTaskBtn" class="primary-btn">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="celebrationModal">
+        <div class="modal-content celebration">
+            <h2>Congratulations!</h2>
+            <div class="celebration-message" id="celebrationMessage">
+                You completed a task!
+            </div>
+            <div class="xp-earned">
+                <span>+<span id="earnedXP">50</span> XP</span>
+            </div>
+            <button class="primary-btn" id="closeCelebrationBtn">Awesome!</button>
+        </div>
+    </div>
+
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h2>Are you sure?</h2>
+            <p id="confirmMessage">This action cannot be undone.</p>
+            <div class="form-actions">
+                <button id="cancelConfirmBtn" class="secondary-btn">Cancel</button>
+                <button id="confirmBtn" class="danger-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer">
+        <!-- Toasts will be added here dynamically -->
+    </div>
+
+    <!-- Add Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Main script -->
+    <script src="script.js"></script>
+</body>
+</html> 
