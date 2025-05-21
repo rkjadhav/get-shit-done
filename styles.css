@@ -1404,7 +1404,8 @@ input:checked + .slider:before {
     .app-container {
         padding: var(--spacing-md);
     }
-    
+
+    /* 1. Header Adjustments */
     .header-container {
         flex-direction: column;
         text-align: center;
@@ -1412,6 +1413,14 @@ input:checked + .slider:before {
     
     .app-info {
         text-align: center;
+    }
+
+    .app-info h1 {
+        font-size: 2rem; /* Reduced from 2.5rem */
+    }
+
+    .app-info .tagline {
+        font-size: 0.9rem; /* Reduced from 1.1rem */
     }
     
     .header-progress {
@@ -1421,11 +1430,43 @@ input:checked + .slider:before {
     
     .header-progress .stats-container {
         justify-content: center;
+        gap: var(--spacing-md); /* Ensure consistent gap */
+    }
+
+    .header-progress .stat-label {
+        font-size: 0.7rem; /* Further reduce stat label */
+    }
+    .header-progress .stat-value {
+        font-size: 1rem; /* Further reduce stat value */
+    }
+
+    /* 2. Tabs Adjustments */
+    .tabs {
+        overflow-x: auto; /* Allow horizontal scrolling for tabs */
+        justify-content: flex-start; /* Align tabs to the left when scrolling */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .tabs::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari, Opera */
+        display: none;
+    }
+
+    .tab-btn {
+        padding: var(--spacing-sm) var(--spacing-lg); /* Reduce padding */
+        font-size: 0.9rem; /* Reduce font size */
+        white-space: nowrap; /* Prevent tab text from wrapping */
     }
     
     .wheel {
         width: 200px;
         height: 200px;
+    }
+
+    /* 5. Spin Wheel Section Adjustments */
+    #spinnerNeedle { /* Adjust needle position for 200px wheel */
+        /* Original for 250px wheel: calc(50% - 125px - 25px - 5px_gap) = calc(50% - 155px) */
+        /* For 200px wheel (radius 100px), needle 25px: calc(50% - 100px - 25px - 5px_gap) = calc(50% - 130px) */
+        top: calc(50% - 130px);
     }
     
     .timer-circle {
@@ -1437,9 +1478,85 @@ input:checked + .slider:before {
         font-size: 2rem;
     }
     
-    .stats-container {
+    .stats-container { /* This is a general .stats-container, if used outside header, it needs to be responsive */
         flex-wrap: wrap;
         gap: var(--spacing-md);
+    }
+
+    /* 7. Modals Adjustments */
+    .modal-content {
+        padding: var(--spacing-lg); /* Slightly reduce padding for smaller screens */
+        width: 95%; /* Ensure it doesn't touch edges */
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+        padding: var(--spacing-sm) var(--spacing-md); /* Ensure consistent padding */
+        font-size: 0.9rem; /* Adjust font size for form elements */
+    }
+     .form-actions button { /* Make modal buttons slightly smaller */
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
+    }
+}
+
+/* Additional media query for very small screens (e.g., iPhone SE like widths) */
+@media (max-width: 370px) {
+    .app-info h1 {
+        font-size: 1.8rem;
+    }
+    .app-info .tagline {
+        font-size: 0.8rem;
+    }
+
+    .header-progress .stats-container {
+        gap: var(--spacing-sm); /* Reduce gap for very small screens */
+    }
+    .header-progress .stat-label {
+        font-size: 0.6rem;
+    }
+    .header-progress .stat-value {
+        font-size: 0.9rem;
+    }
+    
+    .tab-btn {
+        padding: var(--spacing-sm) var(--spacing-md); /* Further reduce padding */
+        font-size: 0.8rem; 
+    }
+
+    .wheel { /* Further reduce wheel size for very small screens */
+        width: 180px; 
+        height: 180px;
+    }
+    #spinnerNeedle { /* Adjust needle for 180px wheel */
+        /* For 180px wheel (radius 90px), needle 25px: calc(50% - 90px - 25px - 5px_gap) = calc(50% - 120px) */
+        top: calc(50% - 120px); 
+    }
+    .wheel-text { /* Make wheel text smaller */
+        font-size: 0.7rem;
+        right: 25%; /* Adjust text position for smaller wheel */
+    }
+
+    .timer-circle { /* Further reduce timer size */
+        width: 130px;
+        height: 130px;
+    }
+    .timer-text {
+        font-size: 1.8rem;
+    }
+
+    .modal-content {
+        padding: var(--spacing-md);
+        width: 95%; /* Maintain width */
+    }
+    .modal-content h2 { /* Reduce modal title font size */
+        font-size: 1.25rem; 
+    }
+    .form-actions button { /* Make modal buttons smaller */
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.85rem;
+    }
+    .form-group label {
+        font-size: 0.9rem;
     }
 }
 
@@ -1705,3 +1822,16 @@ body.light-mode .timer-settings label,
 body.light-mode .setting-item label {
     color: var(--light-text);
 } 
+
+#spinnerNeedle {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent; /* Adjust size as needed */
+    border-right: 15px solid transparent; /* Adjust size as needed */
+    border-top: 25px solid var(--primary-color); /* Adjust size and color as needed */
+    position: absolute;
+    top: calc(50% - 155px); /* Positions top of needle: 50% (center) - 125px (wheel radius) - 25px (needle height) - 5px (gap) */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15; /* Ensure it's above the wheel but below modals */
+}
